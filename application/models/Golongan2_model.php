@@ -44,6 +44,13 @@ class Golongan2_model extends CI_Model
             ->order_by('kdgol3', 'ASC');
         return $this->db->get()->result();
     }
+    
+    // get total sub category
+    function total_sub_category($id) {
+        $this->db->where('kdgol2', $id);
+        $this->db->from('golongan3');
+        return $this->db->count_all_results();
+    }
 
     // get data by id
     function get_by_id($id)

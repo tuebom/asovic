@@ -46,7 +46,6 @@
 									</ul>
 									
 									<script type="text/javascript">
-									// $(window).load(function(){
 										
 										function isNumber(evt) {
 											evt = (evt) ? evt : window.event;
@@ -66,11 +65,10 @@
 											if (p1 == '' || p2 == '') {
 												return false;
 											}
-											var newUri = theUrl + '&p1='+p1+'&p2='+p2; //$(this).attr('href') + stringToSend;
+											var newUri = theUrl + '&p1='+p1+'&p2='+p2; 
 											$(this).attr("href", newUri);
 											window.location.href = $(this).attr('href');
 										});
-									// })
 									
 									</script>
 									 
@@ -87,10 +85,6 @@
 										<?php foreach($brands as $item) { ?>
 										<li><a href="<?php echo site_url('search?b='.$item->name.$q); ?>"><?=$item->name?></a></li>
 										<?php } ?>
-										<!-- <li><a href="<?php echo site_url('search?b=GETRA'.$q); ?>">GETRA</a></li>
-										<li><a href="<?php echo site_url('search?b=SANDEN'.$q); ?>">SANDEN</a></li>
-										<li><a href="<?php echo site_url('search?b=MADIN'.$q); ?>">MADIN</a></li>
-										<li><a href="<?php echo site_url('search?b=OTHER'.$q); ?>">OTHER</a></li> -->
 									</ul>
 								</div>
 							</div>

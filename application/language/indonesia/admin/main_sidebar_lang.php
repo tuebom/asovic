@@ -20,8 +20,13 @@ $lang['menu_search'] = 'Search';
 /* ****** */$lang['menu_dashboard']             = 'Dashboard';
 
 /* ****** */$lang['menu_general']               = 'General';
+/* ****** */$lang['menu_banner']                = 'Banner';
+/* ****** */$lang['menu_products']              = 'Products';
 /* ****** */$lang['menu_inventory']             = 'Inventory';
 /* ****** */$lang['menu_brands']                = 'Brands';
+/* ****** */$lang['menu_categories']            = 'Categories';
+/* ****** */$lang['menu_sub_categories']        = 'Sub Categories';
+/* ****** */$lang['menu_sub_categories2']       = 'Sub Categories 2';
 /* ****** */$lang['menu_shipping']              = 'Shipping';
 /* ****** */$lang['menu_linkedproducts']        = 'Linked Products';
 

@@ -14,15 +14,16 @@ class Orders extends Admin_Controller {
 		$this->lang->load('admin/orders');
 		
 		$this->load->model('admin/orders_model');
+		
+		// $this->output->enable_profiler(TRUE);
 
         /* Title Page :: Common */
         $this->page_title->push(lang('menu_orders'));
-        $this->data['pagetitle'] = '<h1>Update Order</h1>'; //$this->page_title->show();
+        $this->data['pagetitle'] = '<h1>Order List</h1>'; //$this->page_title->show();
 
         /* Breadcrumbs :: Common */
         $this->breadcrumbs->unshift(1, 'Orders', 'admin/orders');
 		
-		// $this->output->enable_profiler(TRUE);
 		// note: display order harus memiliki data yang lengkap
 		// => data provinsi, kabupaten/kota, kecamatan dan data alamat (address)
     }
@@ -39,8 +40,7 @@ class Orders extends Admin_Controller {
             /* Breadcrumbs */
             $this->data['breadcrumb'] = $this->breadcrumbs->show();
 
-            /* Get all orders */
-            // $this->data['orders'] = $this->orders_model->get_all();
+			$pagingx = isset($_SESSION['paging']) ? $_SESSION['paging'] : 10;
 			
 			if ($this->input->get('p')) {
 				$page   = $this->input->get('p');
@@ -50,10 +50,26 @@ class Orders extends Admin_Controller {
 				$offset = 0;
 			}
 				
-			$this->data['orders'] = $this->orders_model->get_limit_data(8, $offset);
-			$total = $this->orders_model->total_rows();
+            $this->session->set_flashdata('last_page', $page);
+            $this->session->set_userdata('start', $offset);
+			
+			$q  = $this->input->get('q');
+			if ($q)
+			{
+				$this->session->set_flashdata('q', $q);
+			}
+			// elseif (isset($_SESSION['q']))
+			// {
+			// 	$q = $_SESSION['q'];
+			// }
+
+			$this->data['orders'] = $this->orders_model->get_limit_data($pagingx, $offset, $q); //8, $offset
+			$total = $this->orders_model->total_rows($q);
+			
 			$url   = current_url() . '?p=';
+			
 			$this->data['pagination'] = $this->paging($total, $page, $url);			
+			
 			/* Load Template */
             $this->template->admin_render('admin/orders/index', $this->data);
         }
@@ -186,6 +202,24 @@ class Orders extends Admin_Controller {
 
         /* Load Template */
 		$this->template->admin_render('admin/orders/edit', $this->data);
+	}
+	
+	
+	public function setpaging($length){
+
+		$length = (int) $length;
+		$this->session->set_userdata('paging', $length);
+
+		$data = array(
+			'status' => TRUE
+		);
+		return $this->output
+		->set_content_type('application/json')
+		->set_status_header(200)
+		->set_output(json_encode(array(
+				'data' => $data
+		)));
+		// redirect('admin/orders', 'refresh');
 	}
 	
 	

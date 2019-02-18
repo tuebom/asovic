@@ -71,6 +71,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <i class="fa fa-shopping-cart"></i> <span><?php echo lang('menu_inventory'); ?></span>
                                     </a>
                                 </li>
+                                <li class="<?=active_link_controller('category')?>">
+                                    <a href="<?php echo site_url('admin/categories'); ?>">
+                                        <i class="fa fa-shopping-cart"></i> <span><?php echo lang('menu_categories'); ?></span>
+                                    </a>
+                                </li>
                                 <li class="<?=active_link_controller('brands')?>">
                                     <a href="<?php echo site_url('admin/brands'); ?>">
                                         <i class="fa fa-shopping-cart"></i> <span><?php echo lang('menu_brands'); ?></span>

@@ -13,9 +13,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="row">
                         <div class="col-md-12">
                              <div class="box">
-                                <!-- <div class="box-header with-border">
-                                    <h3 class="box-title"><?php echo anchor('admin/orders/create', '<i class="fa fa-plus"></i> Create Inventory', array('class' => 'btn btn-block btn-primary btn-flat')); ?></h3>
-                                </div> -->
+                                <div class="box-header with-border">
+                                    <!-- <h3 class="box-title"><?php echo anchor('admin/orders/create', '<i class="fa fa-plus"></i> Create New Order', array('class' => 'btn btn-block btn-primary btn-flat')); ?></h3> -->
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="dataTables_length" id="example1_length">
+                                                <label style="display: flex; align-items: center;">Show&nbsp;<select name="example1_length" aria-controls="example1" class="form-control input-sm" style="width: 60px;">
+                                                    <option value="10"<?= (!isset($_SESSION['paging'])) ? '': ($_SESSION['paging']=='10') ? ' selected="selected"':''; ?>>10</option>
+                                                    <option value="25"<?= (!isset($_SESSION['paging'])) ? '': ($_SESSION['paging']=='25') ? ' selected="selected"':''; ?>>25</option>
+                                                    <option value="50"<?= (!isset($_SESSION['paging'])) ? '': ($_SESSION['paging']=='50') ? ' selected="selected"':''; ?>>50</option>
+                                                    <option value="100"<?= (!isset($_SESSION['paging'])) ? '': ($_SESSION['paging']=='100') ? ' selected="selected"':''; ?>>100</option>
+                                                </select>&nbsp;entries</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <form class="frmfilter" action="<?= site_url('admin/orders'); ?>" method="get">
+                                            <div class="box-tools pull-right">
+                                                <div class="has-feedback">
+                                                    <div id="search_filter" class="dataTables_filter">
+                                                        <!-- <label>Search: -->
+                                                        <input type="search" name="q" value="<?=isset($_SESSION['q'])?$_SESSION['q']:''; ?>" class="form-control input-sm" placeholder="" aria-controls="example1">
+                                                        <!-- </label> -->
+                                                        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="box-body table-responsive">
                                     <table class="table table-striped table-hover">
                                         <thead>
@@ -68,3 +94,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </section>
             </div>
+
+            <script type="text/javascript">
+$(document).ready(function(){
+        
+    $('.dataTables_length').change(function(){
+        $.ajax({
+            type: "POST",
+            url: <?php echo '"'.site_url().'admin/orders/setpaging/"' ?> + $('.dataTables_length option:selected').val(),
+            success:function(json){
+                // var data = json.data;
+                location.reload();
+            }
+        });
+    });
+});
+</script>

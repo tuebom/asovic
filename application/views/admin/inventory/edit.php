@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <?php echo $message;?>
 
                                     <?php echo form_open(uri_string(), array('class' => 'form-horizontal', 'id' => 'form-edit_inventory')); ?>
+                                    <div class="col-md-7">
                                         <div class="form-group">
                                             <?php echo lang('inventory_kdbar', 'kdbar', array('class' => 'col-sm-3 control-label')); ?>
                                             <div class="col-sm-9">
@@ -167,32 +168,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <?php echo form_input($hjual);?>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-5">
                                         <div class="form-group">
-                                            <?php echo lang('inventory_picture', 'gambar', array('class' => 'col-sm-3 control-label')); ?>
-                                            <div class="col-sm-9">
+                                            <?php echo lang('inventory_picture', 'gambar', array('class' => 'col-sm-2 control-label')); ?>
+                                            <div class="col-sm-10">
                                                 <?php echo form_input($gambar);?>
                                             </div>
                                         </div>
                                         <?php echo form_hidden($old_pic); ?>
                                         <div class="form-group">
-                                            <div class="col-sm-3"></div>
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-2"></div>
+                                            <div class="col-sm-10">
                                                 <!-- The container for the uploaded files -->
                                                 <div id="files" class="files"><div class="product-img-edit"><img src="<?=site_url($this->data['products_dir'].'/'.$gambar['value'])?>" alt="Image"></div></div>
                                                 <a id="btnUpload" href="#" class="btn btn-sm btn-default btn-flat fileinput-button">Choose image
                                                 <input id="fileupload" type="file" name="files[]" multiple></a>
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-2 col-sm-10">
-                                                <div class="btn-group">
-                                                    <?php echo form_button(array('type' => 'submit', 'class' => 'btn btn-primary btn-flat', 'content' => lang('actions_submit'))); ?>
-                                                    <?php echo form_button(array('type' => 'reset', 'class' => 'btn btn-warning btn-flat', 'content' => lang('actions_reset'))); ?>
-                                                    <?php echo anchor('admin/inventory', lang('actions_cancel'), array('class' => 'btn btn-default btn-flat')); ?>
-                                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="btn-group">
+                                                <?php echo form_button(array('type' => 'submit', 'class' => 'btn btn-primary btn-flat', 'content' => lang('actions_submit'))); ?>
+                                                <?php echo form_button(array('type' => 'reset', 'class' => 'btn btn-warning btn-flat', 'content' => lang('actions_reset'))); ?>
+                                                <?php echo anchor(isset($_SESSION['last_page'])?'admin/inventory?p='.$_SESSION['last_page']:'admin/inventory', lang('actions_cancel'), array('class' => 'btn btn-default btn-flat')); ?>
                                             </div>
                                         </div>
+                                    </div>
                                     <?php echo form_close();?>
                                 </div>
                             </div>
@@ -333,41 +336,6 @@ $(document).ready(function() {
                     }
                 });
 
-            },
-        });
-    });
-    
-    // $('#btnSubmit').click(function(event) {
-    //     event.preventDefault();
-    //     $('#frmAddress').submit();
-    // });
-    
-    $('#kdgol').change(function(){
-        $.ajax({
-            type: "POST",
-            url: "<?php echo site_url();?>inventory/level2/"+$(this).val(),
-            // dataType: "json",
-            // data: {"id":$(this).val()},
-            success:function(json){
-                var data = json.data,
-                    firstid = data[0].kdgol2;
-
-                $('#kdgol2').html('');
-                for (var i = 0; i < data.length; i++) {
-                    $('#kdgol2').append('<option value="'+data[i].kdgol2+'">'+data[i].nama+'</option>')
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo site_url();?>inventory/level3/"+firstid,
-                    success:function(json){
-                        var data = json.data;
-                        $('#kdgol3').html('');
-                        for (var i = 0; i < data.length; i++) {
-                            $('#kdgol3').append('<option value="'+data[i].kdgol3+'">'+data[i].nama+'</option>')
-                        }
-                    },
-                });
             },
         });
     });

@@ -7,7 +7,7 @@ class Inventory_model extends CI_Model
 {
 
     public $table = 'stock';
-    public $id = 'kdbar';
+    public $id = 'kdurl';
     public $order = 'ASC';
 
     function __construct()

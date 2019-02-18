@@ -42,7 +42,7 @@ body{
     background: #ffffff;
 }
 .header-top {
-    background: #021931; /*#1565c0;*/
+    background: #03274e;
     padding: .7em 0;
 }
 .location {
@@ -95,7 +95,7 @@ body{
 }
 .heder-bottom {
     /*padding: 1em 0;*/
-	background: #021931; /*#0d59af;*/
+	background: #03274e;
 }
 .logo-nav-left{
 	float:left;
@@ -1543,14 +1543,15 @@ img.office {
     iframe.map-about {
         width: 550px;
         height: 350px;
+        margin-left: 70px;
     }
 }        
 .footer-w3l {
-    background: #021931;
+    background: #03274e;
     padding: 1em 0;
 }
 .footer-bawah {
-    background: #021931;
+    background: #03274e;
     padding: 1em 0;
 }
 @media (min-width:768px){
@@ -4239,7 +4240,7 @@ h3.tittle1, h3.tittle {
 @media(min-width:768px){
     nav#nav1.sticky {
         overflow: hidden;
-        background-color: #021931;
+        background-color: #03274e;
         padding-left: 1.5em;
         position: fixed !important;
         left: 0;

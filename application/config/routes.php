@@ -60,6 +60,9 @@ $route['products/(:any)/(:any)'] = 'products/index/$1/$2';
 $route['categories/(:any)'] = 'categories/index/$1';
 $route['subcategories/(:any)/(:any)'] = 'subcategories/index/$1/$2';
 
+$route['admin/subcategories/(:num)'] = 'admin/subcategories/index/$1';
+$route['admin/subcategories2/(:num)'] = 'admin/subcategories2/index/$1';
+
 $route['detail/(:any)'] = 'detail/index/$1';
 $route['detail/(:any)/(:any)'] = 'detail/index/$1';
 

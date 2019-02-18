@@ -128,13 +128,28 @@ class Orders_model extends CI_Model
     
     // get total rows
     function total_rows($q = NULL) {
-        $this->db->like('id', $q);
-        $this->db->or_like('mbrid', $q);
-        $this->db->or_like('total', $q);
-        $this->db->or_like('payment', $q);
-        $this->db->or_like('note', $q);
-        $this->db->or_like('delivery', $q);
-        $this->db->from($this->table);
+        $this->db->from('orders o');
+        $this->db->join('address a', 'o.addrid = a.id');
+        $this->db->join('provinces p', 'a.province = p.id');
+        $this->db->join('regencies r', 'a.regency = r.id');
+        $this->db->join('districts d', 'a.district = d.id');
+        $this->db->join('users u', 'o.mbrid = u.id');
+
+        $this->db->like('o.id', $q);
+        
+        $this->db->or_like('a.first_name', $q);
+        $this->db->or_like('a.last_name', $q);
+        
+        $this->db->or_like('p.name', $q);
+        $this->db->or_like('r.name', $q);
+        $this->db->or_like('d.name', $q);
+
+        $this->db->or_like('o.mbrid', $q);
+        $this->db->or_like('o.total', $q);
+        $this->db->or_like('o.payment', $q);
+        $this->db->or_like('o.note', $q);
+        $this->db->or_like('o.delivery', $q);
+        // $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
@@ -168,13 +183,22 @@ class Orders_model extends CI_Model
 
         // $this->db->order_by($this->id, $this->order);
         $this->db->or_like('o.id', $q);
+        
+        $this->db->or_like('a.first_name', $q);
+        $this->db->or_like('a.last_name', $q);
+        
+        $this->db->or_like('p.name', $q);
+        $this->db->or_like('r.name', $q);
+        $this->db->or_like('d.name', $q);
 
         $this->db->or_like('o.mbrid', $q);
         $this->db->or_like('o.total', $q);
         $this->db->or_like('o.payment', $q);
         $this->db->or_like('o.note', $q);
         $this->db->or_like('o.delivery', $q);
+
         $this->db->order_by('o.id', 'ASC');
+        
         $this->db->limit($limit, $start);
         return $this->db->get()->result(); //$this->table
     }
