@@ -52,24 +52,25 @@ class Inventory extends Admin_Controller {
 				$offset = 0;
 			}
 				
-            $this->session->set_flashdata('last_page', $page);
+            $this->session->set_userdata('last_page', $page);
             $this->session->set_userdata('start', $offset);
 			
 			$q  = $this->input->get('q');
 			if ($q)
 			{
-				$this->session->set_flashdata('q', $q);
+				$url   = current_url() . '?q='.$q.'&p=';
+				$this->session->set_userdata('q', $q);
 			}
-			// elseif (isset($_SESSION['q']))
-			// {
-			// 	$q = $_SESSION['q'];
-			// }
+			else
+			{
+				$url   = current_url() . '?p=';
+				$this->session->unset_userdata('q');
+			}
+			$this->session->set_userdata('url', $url.$page);
 
 			$this->data['inventory'] = $this->inventory_model->get_limit_data($pagingx, $offset, $q);
 			$total = $this->inventory_model->total_rows($q);
 
-			$url   = current_url() . '?p=';
-			
 			$this->data['pagination'] = $this->paging($total, $page, $url);
 
 			/* Load Template */
@@ -123,7 +124,7 @@ class Inventory extends Admin_Controller {
 			
 			'tag'        => $this->input->post('tag'),
 			'hjual'      => $this->input->post('hjual'),
-			'gambar'     => $this->input->post('gambar'),
+			'gambar'     => urldecode($this->input->post('gambar')),
 			);
 			
 			$this->inventory_model->insert($inventory_data);
@@ -306,7 +307,7 @@ class Inventory extends Admin_Controller {
 					
 					'tag'        => $this->input->post('tag'),
 					'hjual'      => $this->input->post('hjual'),
-					'gambar'     => $this->input->post('gambar'),
+					'gambar'     => urldecode($this->input->post('gambar')),
 				);
 
                 $this->inventory_model->update($kode, $data);
@@ -316,7 +317,14 @@ class Inventory extends Admin_Controller {
 				    if ($this->ion_auth->is_admin())
 					{
 						if (isset($_SESSION['last_page'])) {
-							redirect('admin/inventory?p='.$_SESSION['last_page'], 'refresh');
+							if (isset($_SESSION['q']))
+							{
+								redirect('admin/inventory?q='.$_SESSION['q'].'&p='.$_SESSION['last_page'], 'refresh');
+							}
+							else
+							{
+								redirect('admin/inventory?p='.$_SESSION['last_page'], 'refresh');
+							}
 						} else {
 							redirect('admin/inventory', 'refresh');
 						}
@@ -341,8 +349,6 @@ class Inventory extends Admin_Controller {
 		$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 		
 		$this->session->set_flashdata('merk', isset($CI->form_validation) ? $this->form_validation->set_value('merk') : $this->data['inventory']->merk);
-		if (isset($_SESSION['last_page']))
-			$this->session->set_flashdata('last_page', $_SESSION['last_page']);
 
 		$this->data['kdbar'] = array(
 			'name'  => 'kdbar',
@@ -574,6 +580,26 @@ class Inventory extends Admin_Controller {
         }
 		redirect(current_url(), 'refresh');
     }
+
+	public function rmvimage()
+	{
+		$filename = $this->input->post("filename");
+		
+		$thumb_file = substr($_SESSION['custom_dir'],1).'thumbnail/'.$filename;
+		$file = substr($_SESSION['custom_dir'],1).$filename;
+		
+		// log_message('Debug', 'custom_dir: '.$file);
+		
+		if (file_exists($thumb_file)) unlink($thumb_file);
+		if (file_exists($file)) unlink($file);
+		
+		return $this->output
+		->set_content_type('application/json')
+		->set_status_header(200)
+		->set_output(json_encode(array(
+			'status' => TRUE
+		)));
+	}
 
 	public function level2()
 	{

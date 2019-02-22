@@ -38,7 +38,7 @@ class Golongan_model extends CI_Model
     // get sub category
     function get_sub_category($kode)
     {
-        $this->db->select('kdgol2, nama')
+        $this->db->select('kdgol2, nama, info, gambar')
             ->from('golongan2')
             ->where('kdgol', $kode)
             ->order_by('kdgol2', 'ASC');

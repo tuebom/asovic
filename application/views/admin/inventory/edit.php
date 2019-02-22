@@ -182,8 +182,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <div class="col-sm-10">
                                                 <!-- The container for the uploaded files -->
                                                 <div id="files" class="files"><div class="product-img-edit"><img src="<?=site_url($this->data['products_dir'].'/'.$gambar['value'])?>" alt="Image"></div></div>
+                                                <a id="btnDelete" href="#" class="btn btn-sm btn-default btn-flat fileinput-button">Delete old image</a>&nbsp;
                                                 <a id="btnUpload" href="#" class="btn btn-sm btn-default btn-flat fileinput-button">Choose image
-                                                <input id="fileupload" type="file" name="files[]" multiple></a>
+                                                <input id="fileupload" type="file" name="files[]"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -192,7 +193,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <div class="btn-group">
                                                 <?php echo form_button(array('type' => 'submit', 'class' => 'btn btn-primary btn-flat', 'content' => lang('actions_submit'))); ?>
                                                 <?php echo form_button(array('type' => 'reset', 'class' => 'btn btn-warning btn-flat', 'content' => lang('actions_reset'))); ?>
-                                                <?php echo anchor(isset($_SESSION['last_page'])?'admin/inventory?p='.$_SESSION['last_page']:'admin/inventory', lang('actions_cancel'), array('class' => 'btn btn-default btn-flat')); ?>
+                                                <?php echo anchor(isset($_SESSION['url'])?$_SESSION['url']:'admin/inventory', lang('actions_cancel'), array('class' => 'btn btn-default btn-flat')); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -230,25 +231,28 @@ $(document).ready(function() {
             });
 
     $('#fileupload').fileupload({
-        url: url,
+        url: url, // NOTE: tidak boleh ada karakter dot/titik
         dataType: 'json',
         autoUpload: false,
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         maxFileSize: 999000,
+        maxNumberOfFiles: 1,
         // Enable image resizing, except for Android and Opera,
         // which actually support image resizing, but fail to
         // send Blob objects via XHR requests:
         disableImageResize: /Android(?!.*Chrome)|Opera/
             .test(window.navigator.userAgent),
-        previewMaxWidth: 100,
-        previewMaxHeight: 100,
+        previewMaxWidth: 120,
+        previewMaxHeight: 120,
         previewCrop: true
     }).on('fileuploadadd', function (e, data) {
         data.context = $('<div/>').appendTo('#files');
         $.each(data.files, function (index, file) {
             
-            $('.product-img-edit').css('display', 'none');
-            $('#gambar').val(file.name);
+            // $('.product-img-edit').css('display', 'none');
+            
+            $('#gambar').val(file.name); //update nama file
+            $('#btnUpload').css('display', 'none');
             
             var node = $('<p/>');
                     // .append($('<span/>').text(file.name));
@@ -309,6 +313,23 @@ $(document).ready(function() {
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
         
+    $('#btnDelete').click(function(event) {
+        event.preventDefault();
+        var filename = document.getElementsByName("old_pic")[0].value;
+        $.ajax({
+            type: "POST",
+            url: <?php echo '"'.site_url().'admin/inventory/rmvimage"' ?>,
+            dataType: "json",
+            data: {"filename": filename},
+            success:function(json){
+                if(json.status) {
+                    $('.product-img-edit').css('display', 'none');
+                    $('#btnDelete').css('display', 'none');
+                    alert('File deleted successfully!');
+                }
+            }
+        });
+    });
 
     $('#kdgol').change(function(){
         $.ajax({

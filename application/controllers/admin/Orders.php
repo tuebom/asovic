@@ -56,17 +56,18 @@ class Orders extends Admin_Controller {
 			$q  = $this->input->get('q');
 			if ($q)
 			{
-				$this->session->set_flashdata('q', $q);
+				$url   = current_url() . '?q='.$q.'&p=';
+				$this->session->set_userdata('q', $q);
 			}
-			// elseif (isset($_SESSION['q']))
-			// {
-			// 	$q = $_SESSION['q'];
-			// }
+			else
+			{
+				$url   = current_url() . '?p=';
+				$this->session->unset_userdata('q');
+			}
+			$this->session->set_userdata('url', $url.$page);
 
-			$this->data['orders'] = $this->orders_model->get_limit_data($pagingx, $offset, $q); //8, $offset
+			$this->data['orders'] = $this->orders_model->get_limit_data($pagingx, $offset, $q);
 			$total = $this->orders_model->total_rows($q);
-			
-			$url   = current_url() . '?p=';
 			
 			$this->data['pagination'] = $this->paging($total, $page, $url);			
 			
@@ -114,11 +115,6 @@ class Orders extends Admin_Controller {
 		{
 
 			$this->data['member'] = $this->member_model->get_all();
-			
-			if (isset($_SESSION["kdgol"])) {
-				$this->data['golongan2'] = $this->golongan2_model->get_all();
-				$this->data['golongan3'] = $this->golongan3_model->get_all();
-			}
 
 			$this->data['message'] = (validation_errors() ? validation_errors() : 'Input data belum benar!');
 
@@ -170,16 +166,23 @@ class Orders extends Admin_Controller {
 			$order_id = $this->input->post('id');
 
 			$order_data = array(
-				'status'     => $this->input->post('status'),
+				'status' => $this->input->post('status'),
 			);
 
 			$this->orders_model->update($order_id, $order_data);
 				
-			$this->session->set_flashdata('message', $this->ion_auth->messages());
+			// $this->session->set_flashdata('message', $this->ion_auth->messages());
 
 			if ($this->ion_auth->is_admin())
 			{
-				redirect('admin/orders', 'refresh');
+				if (isset($_SESSION['url']))
+				{
+					redirect($_SESSION['url'], 'refresh');
+				}
+				else
+				{
+					redirect('admin/orders', 'refresh');
+				}
 			}
 			else
 			{

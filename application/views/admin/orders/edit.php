@@ -146,7 +146,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="row no-print">
                         <div class="col-xs-12">
                         <a href="#" class="btn btn-default btn-update"><i class="fa fa-save"></i> Update</a>&nbsp;
-                        <?php echo anchor('admin/orders', lang('actions_cancel'), array('class' => 'btn btn-default')); ?>
+                        <?php echo anchor(isset($_SESSION['url'])?$_SESSION['url']:'admin/orders', lang('actions_cancel'), array('class' => 'btn btn-default')); ?>
                         </div>
                     </div>
                 </section>

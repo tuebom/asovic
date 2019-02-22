@@ -72,7 +72,7 @@
 									 
 								</div>
 								<div class="brand-w3l">
-									<label class="title">Brand</label>
+									<label class="title">Brand</label> <!-- display all brand -->
 									<ul>
 										<?php foreach($brands as $item) { ?>
 										<li><a href="<?php echo site_url('search?b='.$item->name); ?>"><?=$item->name?></a></li>
@@ -126,7 +126,7 @@
 														</div>
 														<div class="women">
 															<span class="size"><?= $item->nama; ?></span>
-															<span class="detail">Rp<?= $item->hjual; ?>&nbsp;&nbsp;<a href="<?= current_url().'?action=add&code='.$item->kdurl ?>" class="my-cart-search item_add"><img src="<?= site_url('images/bag.png'); ?>" alt="Cart" /></a><!--<a href="<?php echo site_url('detail/'.$item->kdurl); ?>" class="my-cart-d item_add">Detail</a>--></span>
+															<span class="detail">Rp<?= $item->hjual; ?><a href="<?= current_url().'?action=add&code='.$item->kdurl ?>" class="my-cart-search item_add"><img src="<?= site_url('images/bag.png'); ?>" alt="Cart" /></a><!--<a href="<?php echo site_url('detail/'.$item->kdurl); ?>" class="my-cart-d item_add">Detail</a>--></span>
 														</div>
 													</div>
 												</div>

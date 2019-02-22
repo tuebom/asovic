@@ -65,7 +65,7 @@
 											if (p1 == '' || p2 == '') {
 												return false;
 											}
-											var newUri = theUrl + '&p1='+p1+'&p2='+p2; 
+											var newUri = theUrl + '&p1='+p1+'&p2='+p2;
 											$(this).attr("href", newUri);
 											window.location.href = $(this).attr('href');
 										});
@@ -74,7 +74,7 @@
 									 
 								</div>
 								<div class="brand-w3l">
-									<label class="title">Brand</label>
+									<label class="title">Brand</label> <!-- display all brand -->
 									<?php
 									
 										if ($this->data['q']) { // sertakan query pencarian sebelumnya
@@ -134,7 +134,7 @@
 														</div>
 														<div class="women">
 															<span class="size"><?= $item->nama; ?></span>
-															<span class="detail">Rp<?= $item->hjual; ?>&nbsp;&nbsp;<a href="<?= current_url().'?action=add&code='.$item->kdurl ?>" class="my-cart-search item_add"><img src="<?= site_url('images/bag.png'); ?>" alt="Cart" /></a><!--<a href="<?php echo site_url('detail/'.$item->kdurl); ?>" class="my-cart-d item_add">Detail</a>--></span>
+															<span class="detail">Rp<?= $item->hjual; ?><a href="<?= current_url().'?action=add&code='.$item->kdurl ?>" class="my-cart-search item_add"><img src="<?= site_url('images/bag.png'); ?>" alt="Cart" /></a><!--<a href="<?php echo site_url('detail/'.$item->kdurl); ?>" class="my-cart-d item_add">Detail</a>--></span>
 														</div>
 													</div>
 												</div>

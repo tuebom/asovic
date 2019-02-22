@@ -2589,4 +2589,33 @@ class Ion_auth_model extends CI_Model
 	protected function _prepare_ip($ip_address) {
 		return $ip_address;
 	}
+    
+    // get total rows
+    function total_rows($q = NULL) {
+        
+        if ($q) {
+            $this->db
+            ->group_start()
+            ->or_like(['username'=> $q, 'email'=> $q, 'first_name'=> $q, 'last_name'=> $q, 'company'=> $q, 'address'=> $q, 'phone'=> $q, 'post_code'=> $q])
+            ->group_end();
+        }
+        $this->db->from('users');
+        return $this->db->count_all_results();
+    }
+
+    function get_limit_data($limit, $start = 0, $q = NULL) {
+        
+        $qry = $this->db->select('id, first_name, last_name, email, company, phone, active');
+        $this->db->from('users');
+        
+        if ($q) {
+            $qry->group_start()
+            ->or_like(['username'=> $q, 'email'=> $q, 'first_name'=> $q, 'last_name'=> $q, 'company'=> $q, 'address'=> $q, 'phone'=> $q, 'post_code'=> $q])
+            ->group_end();
+        }
+
+		$this->db->order_by('id', 'ASC');
+	    $this->db->limit($limit, $start);
+        return $this->db->get()->result();
+    }
 }

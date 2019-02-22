@@ -9,13 +9,14 @@ class Users extends Admin_Controller {
 
         /* Load :: Common */
         $this->lang->load('admin/users');
+        $this->load->model('ion_auth_model');
 
         /* Title Page :: Common */
-        $this->page_title->push(lang('menu_users'));
+        $this->page_title->push(lang('menu_members'));
         $this->data['pagetitle'] = $this->page_title->show();
 
         /* Breadcrumbs :: Common */
-        $this->breadcrumbs->unshift(1, lang('menu_users'), 'admin/users');
+        $this->breadcrumbs->unshift(1, lang('menu_members'), 'admin/users');
     }
 
 
@@ -30,12 +31,43 @@ class Users extends Admin_Controller {
             /* Breadcrumbs */
             $this->data['breadcrumb'] = $this->breadcrumbs->show();
 
-            /* Get all users */
-            $this->data['users'] = $this->ion_auth->users()->result();
+			$pagingx = isset($_SESSION['paging']) ? $_SESSION['paging'] : 10;
+
+			if ($this->input->get('p')) {
+				$page   = $this->input->get('p');
+				$offset = ((int)$page-1)*$pagingx;
+			} else {
+				$page   = 1;
+				$offset = 0;
+			}
+				
+            $this->session->set_flashdata('last_page', $page);
+            $this->session->set_userdata('start', $offset);
+			
+			$q  = $this->input->get('q');
+			if ($q)
+			{
+				$this->session->set_flashdata('q', $q);
+				$url   = current_url() . '?q='.$q.'&p=';
+			}
+			else
+			{
+				$this->session->unset_userdata('q');
+				$url   = current_url() . '?p=';
+			}
+
+			/* Get all users */
+			// $this->ion_auth_model->limit($pagingx);
+			// $this->ion_auth_model->offset($offset);
+			$this->data['users'] = $this->ion_auth_model->get_limit_data($pagingx, $offset, $q); //$this->ion_auth->users()->result();
+			
             foreach ($this->data['users'] as $k => $user)
             {
                 $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
             }
+			
+			$total = $this->ion_auth_model->total_rows($q);
+			$this->data['pagination'] = $this->paging($total, $page, $url);
 
             /* Load Template */
             $this->template->admin_render('admin/users/index', $this->data);
@@ -420,5 +452,99 @@ class Users extends Admin_Controller {
 		{
 			return FALSE;
 		}
+	}
+	
+	
+	public function setpaging($length){
+
+		$length = (int) $length;
+		$this->session->set_userdata('paging', $length);
+
+		$data = array(
+			'status' => TRUE
+		);
+		return $this->output
+		->set_content_type('application/json')
+		->set_status_header(200)
+		->set_output(json_encode(array(
+				'data' => $data
+		)));
+	}
+	
+	
+	public function paging($total,$curr_page,$url){
+    
+		$page = '';
+		$pagingx = isset($_SESSION['paging']) ? $_SESSION['paging'] : 8;
+		$total_page = ceil($total/$pagingx);
+		
+		if($total > $pagingx) { // hasil bagi atau jumlah halaman lebih dari satu
+		
+			$page = '<ul class="pagination no-print">';
+			
+			if ($total_page > 9 && $curr_page > 2)
+		   		$page .='<li><a href="'.$url.'1"><<</a></li>';
+			if ($curr_page > 1)
+				$page .='<li><a href="'.$url.($curr_page-1).'"><</a></li>';
+		   
+			if ($total_page < 10) {
+				for($x = 1;$x <= $total_page;$x++) {
+					
+					$active = '';
+					
+					if($x == $curr_page)
+						$active = 'class="active"';
+					
+					$page .='<li '.$active.'><a href="'.$url.$x.'">'.$x.'</a></li>';
+					
+				}
+			}
+			else
+			{
+				if ($curr_page > 3) {
+					for($x = $curr_page-2;$x <= $curr_page-1; $x++) {
+						$page .='<li><a href="'.$url.$x.'">'.$x.'</a></li>';
+					}
+				}
+				else
+				{
+					for($x = 1;$x <= 2;$x++) {
+						$active = '';
+					
+						if($x == $curr_page)
+							$active = ' class="active"';
+						
+						$page .='<li'.$active.'><a href="'.$url.$x.'">'.$x.'</a></li>';
+					}
+				}
+
+				if ($curr_page >= 3 && $total_page - $curr_page > 3)
+					// $page .='<li><a href="#">'.($curr_page).' / '.$total_page.'</a></li>';
+					$page .='<li class="active"><a href="#">'.($curr_page).'</a></li>';
+
+				if ($total_page - $curr_page > 3) {
+					
+					if ($curr_page == 1) {
+						for($x = $curr_page+2;$x <= $curr_page+3; $x++) {
+							$page .='<li><a href="'.$url.$x.'">'.$x.'</a></li>';
+						}
+					}
+					else
+					{
+						for($x = $curr_page+1;$x <= $curr_page+2; $x++) {
+							$page .='<li><a href="'.$url.$x.'">'.$x.'</a></li>';
+						}
+					}
+				}
+			}
+			if ($curr_page < $total_page)
+				$page .='<li><a href="'.$url.($curr_page+1).'">></a></li>';
+			if ($total_page > 9)
+				$page .='<li><a href="'.$url.$total_page.'">>></a></li>';
+				
+			$page .='</ul>';
+		}
+			
+		return $page;
 	}
 }

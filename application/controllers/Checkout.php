@@ -280,15 +280,15 @@ class Checkout extends Public_Controller {
 					
 					// simpan data alamat pengiriman ke variabel session
 					$this->session->set_userdata($address_data);
+			
+						// prepare for back step
+						// if (isset($_SESSION["province"])) {
+							$this->data['kabupaten'] = $this->kabupaten_model->get_by_province_id($_SESSION["province"]);
+							$this->data['kecamatan'] = $this->kecamatan_model->get_by_regency_id($_SESSION["regency"]);
+						// }
 					
 					if ($this->form_validation->run() == TRUE)
 					{
-			
-						// prepare for back step
-						if (isset($_SESSION["province"])) {
-							$this->data['kabupaten'] = $this->kabupaten_model->get_by_province_id($_SESSION["province"]);
-							$this->data['kecamatan'] = $this->kecamatan_model->get_by_regency_id($_SESSION["regency"]);
-						}
 		
 						$this->load->view('layout/header', $this->data);
 						$this->load->view('checkout/delivery', $this->data);

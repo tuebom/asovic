@@ -24,7 +24,6 @@
 								</div>
 							</div>
 
-							<!-- <div class="single-right simpleCart_shelfItem"> -->
 							<div class="col-md-4 col-sm-4 col-xs-12">
 								<form id="formAdd" action="<?= site_url('cart/add'); ?>" method="post">
 								<input type="hidden" name="kode" value="<?= $this->data['product']->kdbar ?>">
@@ -34,7 +33,11 @@
 								<div class="block">
 									<div class="starbox small ghosting unchangeable" data-start-value="<?= $this->data['item_rating']->rating ?>"> </div>
 								</div>
+								<?php if($this->data['product']->kriteria == 'P') : ?>
+								<p class="price item_price">Rp <?= $this->data['product']->hpromof ?></p>
+								<?php else :?>
 								<p class="price item_price">Rp <?= $this->data['product']->hjual ?></p>
+								<?php endif; ?>
 								
 								<div class="color-quality">
 									<h6>Quantity:</h6>
@@ -68,7 +71,6 @@
 										</script>
 								</div>
 								<div class="women">
-									<!-- <a href="javascript:{}" onclick="document.getElementById('formAdd').submit(); return false;" data-text="Add To Cart" class="my-cart-b item_add">Add To Cart</a> -->
 									<a id="qtyOrder" href="<?= current_url().'?action=add&code='.$this->data['product']->kdurl ?>" class="my-cart-b item_add">Add To Cart</a>
 								</div>
 								<div class="social-icon">
@@ -149,29 +151,27 @@
 							<div class="clearfix"> </div>
 						</div>
 						<script type="text/javascript">
-jQuery(function() {
-	jQuery('.starbox').each(function() {
-		var starbox = jQuery(this);
-			starbox.starbox({
-			average: 0, //starbox.attr('data-start-value'),
-			changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
-			ghosting: starbox.hasClass('ghosting'),
-			autoUpdateAverage: true, //starbox.hasClass('autoupdate'),
-			buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
-			stars: starbox.attr('data-star-count') || 5
-			}).bind('starbox-value-changed', function(event, value) {
-				starbox.starbox('setOption', 'average', value);
-				var el = $(this).parents("#formReview").find('#rating')[0];
-				if (el) el.value = value;
-			// if(starbox.hasClass('random')) {
-			// var val = Math.random();
-			// starbox.next().text(' '+val);
-			// return val;
-			// }
-		})
-	});
-});
-</script>
+
+						jQuery(function() {
+							jQuery('.starbox').each(function() {
+								var starbox = jQuery(this);
+									
+								starbox.starbox({
+								average: starbox.attr('data-start-value'),
+								changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
+								ghosting: starbox.hasClass('ghosting'),
+								autoUpdateAverage: starbox.hasClass('autoupdate'),
+								buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
+								stars: starbox.attr('data-star-count') || 5
+								}).bind('starbox-value-changed', function(event, value) {
+									starbox.starbox('setOption', 'average', value);
+									var el = $(this).parents("#formReview").find('#rating')[0];
+									if (el) el.value = value;
+								});
+							});
+						});
+						</script>
+
 						<div class="tab-wl3">
 							<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
 								<ul id="myTab" class="nav nav-tabs left-tab" role="tablist">
@@ -213,7 +213,6 @@ jQuery(function() {
 								$index = 0;
 								foreach ($this->data['related'] as $item) {
 							?>
-							<!-- <div class="col-md-3 related-grid simpleCart_shelfItem"> -->
 							<div class="item related">
 								<div class="grid-rel">
 									<div class="grid-related">
@@ -234,7 +233,6 @@ jQuery(function() {
 							</div>
 							<?php 
 								$index++;
-								// if ($index == 6) break;
 								} ?>
 							<div class="clearfix"></div>
 						</div>
@@ -270,7 +268,7 @@ jQuery(function() {
 								</div>
 								<?php }
 									if(isset($this->data['showbutton'])) {
-									// if($this->data['totreviews'] > 3): ?>
+								?>
 									<a class="all-reviews" href="<?=current_url().'?action=getall';?>">Read All Reviews</a>
 								<?php } ?>
 							</div>
@@ -280,7 +278,7 @@ jQuery(function() {
 								Your Rating
 								<form id="formReview" action="<?=current_url().'?action=comment';?>" method="post">
 								<div class="block">
-									<div class="starbox small ghosting" data-start-value="<?=isset($this->data['rating']) ? $this->data['rating'] : '0';?>"><div class="positioner" style=""><div class="stars"><div class="ghost" style="width: 0px; display: none;"></div><div class="colorbar" style="width: 42.5px;"></div><div class="star_holder"><div class="star star-0"></div><div class="star star-1"></div><div class="star star-2"></div><div class="star star-3"></div><div class="star star-4"></div></div></div></div></div>
+									<div class="starbox small ghosting" data-start-value="<?=isset($this->data['rating']) ? $this->data['rating'] : '0'; ?>"><div class="positioner" style=""><div class="stars"><div class="ghost" style="width: 0px; display: none;"></div><div class="colorbar" style="width: 42.5px;"></div><div class="star_holder"><div class="star star-0"></div><div class="star star-1"></div><div class="star star-2"></div><div class="star star-3"></div><div class="star star-4"></div></div></div></div></div>
 								</div>
 									<input type="hidden" name="kdbar" value="<?= $this->data['product']->kdbar ?>">
 									<input type="hidden" name="url" value="<?= current_url() ?>">
@@ -305,7 +303,7 @@ jQuery(function() {
                                         		<input class="form-control hidden" data-recaptcha="true" required data-error="Please complete the Captcha">
                                         	<div class="help-block with-errors"></div>
                                     	</div>
-										</div>
+									</div>
 									<div class="row">
 										<div class="col-md-3 col-xs-4 row-grid">
 											<input id="btnSend" type="submit" value="Send">
@@ -320,12 +318,12 @@ jQuery(function() {
 			<!--reviews-->
 		</div>
     <!--content-->
-	<script>
-	$(function () {
+<script>
+$(function () {
 
-// init the validator
-// validator files are included in the download package
-// otherwise download from http://1000hz.github.io/bootstrap-validator
+    // init the validator
+    // validator files are included in the download package
+    // otherwise download from http://1000hz.github.io/bootstrap-validator
 
     window.verifyRecaptchaCallback = function (response) {
         $('input[data-recaptcha]').val(response).trigger('change')
@@ -334,4 +332,5 @@ jQuery(function() {
     window.expiredRecaptchaCallback = function () {
         $('input[data-recaptcha]').val("").trigger('change')
     }
+});
 </script>

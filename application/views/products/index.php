@@ -80,15 +80,11 @@
 									 
 								</div>
 								<div class="brand-w3l">
-									<label class="title">Brand</label>
+									<label class="title">Brand</label> <!-- display all brand -->
 									<ul>
 										<?php foreach($brands as $item) { ?>
 										<li><a href="<?php echo site_url('search?q='.$this->data['kode'].'&b='.$item->name); ?>"><?=$item->name?></a></li>
 										<?php } ?>
-										<!-- <li><a href="<?php echo site_url('search?q='.$this->data['kode'].'&b=GETRA'); ?>">GETRA</a></li>
-										<li><a href="<?php echo site_url('search?q='.$this->data['kode'].'&b=SANDEN'); ?>">SANDEN</a></li>
-										<li><a href="<?php echo site_url('search?q='.$this->data['kode'].'&b=MADIN'); ?>">MADIN</a></li>
-										<li><a href="<?php echo site_url('search?q='.$this->data['kode'].'&b=OTHER'); ?>">OTHER</a></li> -->
 									</ul>
 								</div>
 							</div>
@@ -136,10 +132,13 @@
 																</a>		
 															</figure>	
 														</div>
-														<div class="women">
+														<div class="dashboard">
 															<span class="size"><?= $item->nama; ?></span>
-															<span class="detail">Rp<?= $item->hjual; ?>&nbsp;&nbsp;<a href="<?= current_url().'?action=add&code='.$item->kdurl ?>" class="my-cart-product item_add"><img src="<?= site_url('images/bag.png'); ?>" alt="Cart" /></a><!--<a href="<?php echo site_url('detail/'.$item->kdurl); ?>" class="my-cart-d item_add">Detail</a>--></span>
+															<div class="harga">
+																<span class="detail">Rp<?= $item->hjual; ?>&nbsp;&nbsp;<a href="<?= current_url().'?action=add&code='.$item->kdurl ?>" class="my-cart-product item_add"><img src="<?= site_url('images/bag.png'); ?>" alt="Cart" /></a><!--<a href="<?php echo site_url('detail/'.$item->kdurl); ?>" class="my-cart-d item_add">Detail</a>--></span>
+															</div>
 														</div>
+
 													</div>
 												</div>
 											<?php 

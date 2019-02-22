@@ -20,3 +20,8 @@ div.product-img-edit img {
 div.box-body.banner {
     margin-right: 30px;
 }
+
+.table > tbody > tr > td > a:hover,
+.table > tbody > tr > td > a:focus {
+    color: #3c8dbc;
+}

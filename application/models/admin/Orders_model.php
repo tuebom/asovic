@@ -139,6 +139,7 @@ class Orders_model extends CI_Model
         
         $this->db->or_like('a.first_name', $q);
         $this->db->or_like('a.last_name', $q);
+        $this->db->or_like('a.address', $q);
         
         $this->db->or_like('p.name', $q);
         $this->db->or_like('r.name', $q);
@@ -149,7 +150,6 @@ class Orders_model extends CI_Model
         $this->db->or_like('o.payment', $q);
         $this->db->or_like('o.note', $q);
         $this->db->or_like('o.delivery', $q);
-        // $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
@@ -181,11 +181,11 @@ class Orders_model extends CI_Model
         $this->db->join('districts d', 'a.district = d.id');
         $this->db->join('users u', 'o.mbrid = u.id');
 
-        // $this->db->order_by($this->id, $this->order);
         $this->db->or_like('o.id', $q);
         
         $this->db->or_like('a.first_name', $q);
         $this->db->or_like('a.last_name', $q);
+        $this->db->or_like('a.address', $q);
         
         $this->db->or_like('p.name', $q);
         $this->db->or_like('r.name', $q);

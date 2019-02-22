@@ -189,6 +189,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-9">
+                                                <div class="btn-group">
+                                                    <?php echo form_button(array('type' => 'submit', 'class' => 'btn btn-primary btn-flat', 'content' => lang('actions_submit'))); ?>
+                                                    <?php echo form_button(array('type' => 'reset', 'class' => 'btn btn-warning btn-flat', 'content' => lang('actions_reset'))); ?>
+                                                    <?php echo anchor('admin/inventory', lang('actions_cancel'), array('class' => 'btn btn-default btn-flat')); ?>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-5">
                                         <div class="form-group">
@@ -203,17 +212,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     <!-- The container for the uploaded files -->
                                                     <div id="files" class="files"></div>
                                                     <a id="btnUpload" href="#" class="btn btn-sm btn-default btn-flat fileinput-button">Choose image
-                                                    <input id="fileupload" type="file" name="files[]" multiple></a>
+                                                    <input id="fileupload" type="file" name="files[]"></a>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <div class="btn-group">
-                                                <?php echo form_button(array('type' => 'submit', 'class' => 'btn btn-primary btn-flat', 'content' => lang('actions_submit'))); ?>
-                                                <?php echo form_button(array('type' => 'reset', 'class' => 'btn btn-warning btn-flat', 'content' => lang('actions_reset'))); ?>
-                                                <?php echo anchor('admin/inventory', lang('actions_cancel'), array('class' => 'btn btn-default btn-flat')); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -251,11 +251,12 @@ $(document).ready(function(){
             });
 
     $('#fileupload').fileupload({
-        url: url,
+        url: url, // NOTE: tidak boleh ada karakter dot/titik
         dataType: 'json',
         autoUpload: false,
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         maxFileSize: 999000,
+        maxNumberOfFiles: 1,
         // Enable image resizing, except for Android and Opera,
         // which actually support image resizing, but fail to
         // send Blob objects via XHR requests:
@@ -269,6 +270,7 @@ $(document).ready(function(){
         $.each(data.files, function (index, file) {
             
             $('#gambar').val(file.name);
+            $('#btnUpload').css('display', 'none');
             
             var node = $('<p/>');
                     // .append($('<span/>').text(file.name));
@@ -374,12 +376,5 @@ $(document).ready(function(){
             }
         });
     });
-    
-    // $('#btnUpload').click(function(event) {
-    //     // event.preventDefault();
-    //     // alert('halo')
-    //     $('#prdfile').trigger("click");
-    //     // $('#frmAkun').submit();
-    // });
 });
 </script>

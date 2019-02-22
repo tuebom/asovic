@@ -79,23 +79,19 @@ jQuery(function() {
 
 	jQuery('.starbox').each(function() {
 		var starbox = jQuery(this);
-			starbox.starbox({
-			average: 0, //starbox.attr('data-start-value'),
-			changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
-			ghosting: starbox.hasClass('ghosting'),
-			autoUpdateAverage: true, //starbox.hasClass('autoupdate'),
-			buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
-			stars: starbox.attr('data-star-count') || 5
-			}).bind('starbox-value-changed', function(event, value) {
-				starbox.starbox('setOption', 'average', value);
-				var el = $(this).parents("#formReview").find('#rating')[0];
-				if (el) el.value = value;
-			// if(starbox.hasClass('random')) {
-			// var val = Math.random();
-			// starbox.next().text(' '+val);
-			// return val;
-			// }
-		})
+			
+		starbox.starbox({
+		average: 0, //starbox.attr('data-start-value'),
+		changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
+		ghosting: starbox.hasClass('ghosting'),
+		autoUpdateAverage: true, //starbox.hasClass('autoupdate'),
+		buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
+		stars: starbox.attr('data-star-count') || 5
+		}).bind('starbox-value-changed', function(event, value) {
+			starbox.starbox('setOption', 'average', value);
+			var el = $(this).parents("#formReview").find('#rating')[0];
+			if (el) el.value = value;
+		});
 	});
 
 	$.ajax({

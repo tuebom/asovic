@@ -72,7 +72,7 @@
 									 
 								</div>
 								<div class="brand-w3l">
-									<label class="title">Brand</label>
+									<label class="title">Brand</label> <!-- display all brand -->
 									<ul>
 										<?php foreach($brands as $item) { ?>
 										<li><a href="<?php echo site_url('search?b='.$item->name); ?>"><?=$item->name?></a></li>

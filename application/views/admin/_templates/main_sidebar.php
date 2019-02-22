@@ -134,7 +134,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <li class="header text-uppercase"><?php echo lang('menu_administration'); ?></li>
                         <li class="<?=active_link_controller('users')?>">
                             <a href="<?php echo site_url('admin/users'); ?>">
-                                <i class="fa fa-user"></i> <span><?php echo lang('menu_users'); ?></span>
+                                <i class="fa fa-user"></i> <span><?php echo lang('menu_members'); ?></span>
                             </a>
                         </li>
                         <li class="<?=active_link_controller('groups')?>">
@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <i class="fa fa-shield"></i> <span><?php echo lang('menu_security_groups'); ?></span>
                             </a>
                         </li>
-                        <li class="treeview <?=active_link_controller('prefs')?>">
+                        <!-- <li class="treeview <?=active_link_controller('prefs')?>">
                             <a href="#">
                                 <i class="fa fa-cogs"></i>
                                 <span><?php echo lang('menu_preferences'); ?></span>
@@ -174,7 +174,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href="<?php echo site_url('admin/resources'); ?>">
                                 <i class="fa fa-cubes"></i> <span><?php echo lang('menu_resources'); ?></span>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </section>
             </aside>
